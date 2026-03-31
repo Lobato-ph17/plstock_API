@@ -1,6 +1,9 @@
 package com.estoque.estoque_api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "produtos")
@@ -10,12 +13,17 @@ public class Produto {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
+        @NotBlank(message = "Nome é obrigatório")
         @Column(nullable = false)
         private String nome;
 
+        @Min(value = 0, message = "Quantidade não pode ser negativa")
         @Column(nullable = false)
         private int quantidade;
 
+
+
+        @Positive(message = "Preço deve ser maior que zero")
         @Column(nullable = false)
         private double preco;
 

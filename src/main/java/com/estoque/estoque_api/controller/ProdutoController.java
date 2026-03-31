@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import jakarta.validation.Valid;
 
 import com.estoque.estoque_api.repository.ProdutoRepository;
 
 @RestController
 @RequestMapping("/produtos")
+
 
 public class ProdutoController {
 
@@ -29,7 +31,7 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public Produto adicionar(@RequestBody Produto produto) {
+    public Produto adicionar(@Valid @RequestBody Produto produto) {
     return repository.save(produto);
     }
 
@@ -43,3 +45,4 @@ public class ProdutoController {
     return repository.findById(id).orElse(null);
     }
 }
+
