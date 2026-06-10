@@ -1,9 +1,16 @@
 
-FROM maven:3.9.6-eclipse-temurin-25 AS build
+FROM eclipse-temurin:25-jdk AS build
+WORKDIR /app
+
+
+RUN apt-get update && apt-get install -y maven
+
 COPY . .
 RUN mvn clean package -DskipTests
 
+
 FROM eclipse-temurin:25-jre-alpine
-COPY --from=build /target/*.jar app.jar
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
