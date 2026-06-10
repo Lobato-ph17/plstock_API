@@ -25,7 +25,7 @@ import com.estoque.estoque_api.repository.ProdutoRepository;
 @RestController
 @RequestMapping("/produtos")
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://plstock.netlify.app")
 
 
 public class ProdutoController {
