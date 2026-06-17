@@ -1,74 +1,62 @@
 package com.estoque.estoque_api.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "produtos")
-
 public class Produto {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
 
-        @NotBlank(message = "Nome é obrigatório")
-        @Column(nullable = false)
-        private String nome;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        @Min(value = 0, message = "Quantidade não pode ser negativa")
-        @Column(nullable = false)
-        private int quantidade;
+    @NotBlank(message = "Nome é obrigatório")
+    @Column(nullable = false, unique = true)
+    private String nome;
 
+    @Column
+    private String descricao;
 
+    @Positive(message = "Preço de venda deve ser maior que zero")
+    @Column(nullable = false)
+    private double precoVenda;
 
-        @Positive(message = "Preço deve ser maior que zero")
-        @Column(nullable = false)
-        private double preco;
+    @Min(value = 0, message = "Quantidade não pode ser negativa")
+    @Column(nullable = false)
+    private int quantidadeEmEstoque;
 
-        public Produto() {
-    
-        }
+    @Column(nullable = false)
+    private double custoProducao = 0.0;
 
-        public Produto(String nome, int quantidade, double preco) {
-            this.nome= nome;
-            this.quantidade = quantidade;
-            this.preco = preco;
-        }
+    public Produto() {}
 
-        public String getNome() {
-         return nome;
-        }
+    @Transient
+    public double getMargemLucro() {
+        if (custoProducao == 0) return 0;
+        return ((precoVenda - custoProducao) / precoVenda) * 100;
+    }
 
-        public void setNome(String novoNome){
-            this.nome = novoNome;
-        }
+    @Transient
+    public double getLucroUnitario() {
+        return precoVenda - custoProducao;
+    }
 
+    // Getters e Setters
+    public Long getId() { return id; }
 
-        public int getQuantidade() {
-            return quantidade;
-        }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-        public void setQuantidade(int novaQuantidade){
-            this.quantidade = novaQuantidade;
-        }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
+    public double getPrecoVenda() { return precoVenda; }
+    public void setPrecoVenda(double precoVenda) { this.precoVenda = precoVenda; }
 
-        public double getPreco() {
-            return preco;
-        }
+    public int getQuantidadeEmEstoque() { return quantidadeEmEstoque; }
+    public void setQuantidadeEmEstoque(int quantidadeEmEstoque) { this.quantidadeEmEstoque = quantidadeEmEstoque; }
 
-        public void setPreco(double novoPreco){
-            this.preco = novoPreco;
-        }
-
-       public Long getId(){
-        return id;
-       }
+    public double getCustoProducao() { return custoProducao; }
+    public void setCustoProducao(double custoProducao) { this.custoProducao = custoProducao; }
 }
-   
-
-
-
-    
