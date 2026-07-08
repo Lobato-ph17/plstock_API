@@ -1,5 +1,7 @@
 package com.estoque.estoque_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 
@@ -11,6 +13,7 @@ public class ItemReceita {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore 
     @ManyToOne
     @JoinColumn(name = "receita_id", nullable = false)
     private Receita receita;
